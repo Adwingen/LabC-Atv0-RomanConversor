@@ -1,0 +1,133 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+#include "romanconversor.h"
+
+/*
+ * return value of a Roman symbol
+ * see: http://www.climaat.angra.uac.pt/produtos/calculadoras/numeros_romanos.htm
+ *
+ * @param a char on format roman nunber
+ * @return the value in decimal
+ *
+ */
+int value(char roman)
+{
+    switch (roman)
+    {
+    case 'I':
+        return 1;
+    case 'V':
+        return 5;
+    case 'X':
+        return 10;
+    case 'L':
+        return 50;
+    case 'C':
+        return 100;
+    case 'D':
+        return 500;
+    case 'M':
+        return 1000;
+    default:
+        return -1;
+    }
+}
+
+/*
+ * return the conversion the roman to decimal
+ * rules: https://brasilescola.uol.com.br/matematica/algarismos-romanos.htm
+ *
+ * @param a char on format roman nunber
+ * @return the final value in decimal
+ *
+ */
+int romanToDecimal(char* roman)
+{
+    int i, result = 0, length = strlen(roman);
+    int countSequence = 0;
+
+    for (i = 0; i < length; i++)
+    {
+        int current = value(roman[i]);
+
+        // If the current character is not a valid Roman numeral, return -1
+        if (current == -1)
+            return -1;
+
+
+        // If the current character is not the last character, check for invalid patterns
+        if (i < length - 1)
+        {
+            int next = value(roman[i + 1]);
+            int nextNext = value(roman[i + 2]);
+            int nextNextNext = value(roman[i + 3]);
+
+            if (roman[i] == roman[i + 1] && roman[i + 1] == roman[i + 2])
+                countSequence++;
+
+            // Check for invalid patterns
+            if ((current == 1 && next == 1 && nextNext == 1 && nextNextNext == 1) || /**< IIII--> Invalid */
+                (current == 5 && next == 5 && nextNext == 5 && nextNextNext == 5) || /**< VVVV --> Invalid */
+                (current == 10 && next == 10 && nextNext == 10 && nextNextNext == 10) ||/**< XXXX --> Invalid */
+                (current == 50 && next == 50 && nextNext == 50 && nextNextNext == 50) || /**< LLLL --> Invalid */
+                (current == 100 && next == 100 && nextNext == 100 && nextNextNext == 100) || /**< CCCC --> Invalid */
+                (current == 500 && next == 500 && nextNext == 500 && nextNextNext == 500) || /**< DDDD --> Invalid */
+                (current == 1000 && next == 1000 && nextNext == 1000 && nextNextNext == 1000) || /**< DDDD --> Invalid */
+                (current == 500 && next == 500) || /**< DD --> Invalid */
+
+                (current < next && next == nextNext) || /**< IXX --> Invalid */
+                (nextNext > next * 10) || /**<  --> Invalid */
+                (countSequence == 2) || /**< VIIIVIII --> Invalid */
+                (current == 1 && next == 50) || /**< IL --> Invalid */
+                (current == 1 && next == 100) || /**< IC --> Invalid */
+                (current == 1 && next == 500) || /**< ID --> Invalid */
+                (current == 1 && next == 1000) ||/**< IM --> Invalid */
+                (current == 10 && next == 500) || /**< XD --> Invalid */
+                (current == 10 && next == 1000)) /**< XM --> Invalid */
+
+
+            {
+                return -1;
+            }
+
+            // If the next character is greater than the current character, subtract the current value from the next value
+            if (next > current)
+            {
+                result += next - current;
+                i++;
+            }
+            // Otherwise, add the current value to the result
+            else
+            {
+                result += current;
+            }
+        }
+        // If the current character is the last character, add its value to the result
+        else
+        {
+            result += current;
+        }
+
+        //validate the unique cases
+        if (result == 1 && roman[i] != 'I' ||
+            result == 5 && roman[i] != 'V' ||
+            result == 10 && roman[i] != 'X' ||
+            result == 50 && roman[i] != 'L' ||
+            result == 100 && roman[i] != 'C' ||
+            result == 500 && roman[i] != 'D' ||
+            result == 1000 && roman[i] != 'M')
+            result = -1;
+    }
+
+
+    return result;
+
+}
+
+
+
+
+
+

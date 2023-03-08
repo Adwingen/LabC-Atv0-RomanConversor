@@ -1,0 +1,57 @@
+/**
+*
+* LEI - UAB
+*
+* @classroom Laboratório de Programação (turma 3)
+* @brief convert roman number to decimal
+* @author Carlos Romão
+*
+* @date 06/03/2023
+*
+*/
+
+
+#define _CRT_SECURE_NO_WARNINGS
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+#include "romanconversor.h"
+
+// Main function
+int main()
+{
+    char romanNumeral[100];
+
+    do
+    {
+        printf("##########################################\n");
+        printf("#####   CONVERSOR ROMAN TO DECIMAL   #####\n");
+        printf("##########################################\n");
+
+        printf("\nEnter a Roman numeral:\n");
+        printf(">>>>>Press 0 to exit<<<<< \n");
+        scanf("%s", &romanNumeral);
+
+        // Check if the Roman numeral is valid and print the decimal equivalent if it is
+        int decimal = romanToDecimal(romanNumeral);
+        if (decimal == -1)
+            printf("Invalid Roman numeral\n\n");
+        else
+            printf("Decimal equivalent: %d\n\n", decimal);
+
+    } while (romanNumeral != 0);
+
+
+    return 0;
+}
+
+
+
+
+
+
+
+
+

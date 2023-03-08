@@ -1,0 +1,19 @@
+/*
+ * return value of a Roman symbol
+ * see: http://www.climaat.angra.uac.pt/produtos/calculadoras/numeros_romanos.htm
+ *
+ * @param a char on format roman nunber
+ * @return the value in decimal
+ *
+ */
+int value(char roman);
+
+/*
+ * return the conversion the roman to decimal
+ * rules: https://brasilescola.uol.com.br/matematica/algarismos-romanos.htm
+ *
+ * @param a char on format roman nunber
+ * @return the final value in decimal
+ *
+ */
+int romanToDecimal(char* roman);
